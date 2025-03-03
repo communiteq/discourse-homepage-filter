@@ -2,7 +2,7 @@
 
 # name: swapd-homepage-filter
 # about: Filter homepage
-# version: 1.0.1
+# version: 1.0.2
 # authors: Communiteq
 # url: https://github.com/communiteq/swapd-homepage-filter
 
@@ -41,6 +41,10 @@ after_initialize do
       result = default_results(options)
       result = remove_muted(result, @user, options)
       result = apply_shared_drafts(result, get_category_id(options[:category]), options)
+      self.class.results_filter_callbacks.each do |filter_callback|
+        # call it with :latest so we don't need to modify the discourse-suppress-category-from-latest plugin
+        result = filter_callback.call(:latest, result, @user, options)
+      end
       result = result.joins("LEFT JOIN group_users gu ON gu.user_id = topics.user_id").where("gu.group_id IN (#{group_ids})")
     end
     result
