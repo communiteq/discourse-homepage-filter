@@ -1,0 +1,5 @@
+en:
+  site_settings:
+    swapd_homepage_filter_enabled: "Add a 'Home' discovery page"
+    swapd_homepage_filter_groups: "Only show topics created by users in these groups"
+

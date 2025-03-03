@@ -1,0 +1,6 @@
+en:
+  js:
+    filters:
+      home:
+        title: Home
+        help: Home Help
