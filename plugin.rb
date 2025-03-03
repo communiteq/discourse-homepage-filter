@@ -2,7 +2,7 @@
 
 # name: swapd-homepage-filter
 # about: Filter homepage
-# version: 1.0
+# version: 1.0.1
 # authors: Communiteq
 # url: https://github.com/communiteq/swapd-homepage-filter
 
@@ -15,14 +15,26 @@ Discourse.anonymous_filters.push(:home)
 
 after_initialize do
   require_relative "config/routes.rb"
-  require_relative "extend/site_settings_type_supervisor.rb"
 
-  SiteSettings::TypeSupervisor.prepend SiteSettingsTypeSupervisorSwapdHomepageFilterExtension
+  # - overriding ApplicationHelper::current_homepage works as well, but bypasses the ability for a user to define their own home page
+  # - we have chosen not to adjust the top_menu because that is global. By adding 'home' via addNavigationBarItem we can control that it
+  #   is only added on the highest level and not on category/tab pages
+
+  add_class_method(:site_settings, :homepage) do
+    "home"
+  end
+
+  add_class_method(:site_settings, :anonymous_homepage) do
+    "home"
+  end
+
+  # the following three methods are required to add a discovery route, and the _feed route in config/routes.rb
 
   add_to_class(:topic_query, :list_home) do
     create_list(:home, {}, home_results)
   end
 
+  # copy of latest_results but with an additional joins/where
   add_to_class(:topic_query, :home_results) do |options = {}|
     group_ids = SiteSetting.swapd_homepage_filter_groups.gsub("|", ",")
     if group_ids != ""
@@ -34,6 +46,7 @@ after_initialize do
     result
   end
 
+  # just a copy from latest_feed
   add_to_class(:list_controller, :home_feed) do
     discourse_expires_in 1.minute
 
