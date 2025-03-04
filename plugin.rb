@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# name: swapd-homepage-filter
+# name: discourse-homepage-filter
 # about: Filter homepage
 # version: 1.0.2
 # authors: Communiteq
-# url: https://github.com/communiteq/swapd-homepage-filter
+# url: https://github.com/communiteq/discourse-homepage-filter
 
-enabled_site_setting :swapd_homepage_filter_enabled
+enabled_site_setting :discourse_homepage_filter_enabled
 
 Discourse.top_menu_items.push(:home)
 Discourse.anonymous_top_menu_items.push(:home)
@@ -36,7 +36,7 @@ after_initialize do
 
   # copy of latest_results but with an additional joins/where
   add_to_class(:topic_query, :home_results) do |options = {}|
-    group_ids = SiteSetting.swapd_homepage_filter_groups.gsub("|", ",")
+    group_ids = SiteSetting.discourse_homepage_filter_groups.gsub("|", ",")
     if group_ids != ""
       result = default_results(options)
       result = remove_muted(result, @user, options)

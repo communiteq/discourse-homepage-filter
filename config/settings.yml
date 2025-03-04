@@ -1,8 +1,8 @@
 plugins:
-  swapd_homepage_filter_enabled:
+  discourse_homepage_filter_enabled:
     default: true
     client: true
-  swapd_homepage_filter_groups:
+  discourse_homepage_filter_groups:
     default: "12"
     type: group_list
     client: false

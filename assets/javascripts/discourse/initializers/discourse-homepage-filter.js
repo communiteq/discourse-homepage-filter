@@ -3,7 +3,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import NavItem from "discourse/models/nav-item";
 
 export default {
-  name: "swapd-homepage-filter",
+  name: "discourse-homepage-filter",
 
   initialize(container) {
     withPluginApi("1.34.0", (api) => {
