@@ -5,6 +5,7 @@
 # version: 1.0.2
 # authors: Communiteq
 # url: https://github.com/communiteq/discourse-homepage-filter
+# meta_topic_id: 355622
 
 enabled_site_setting :discourse_homepage_filter_enabled
 
